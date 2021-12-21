@@ -12,4 +12,5 @@ public class AuthUtils {
     public static final String FULL_PATH_CREATE_USERS = API_PREFIX + AUTH + CREATE_USERS;
     public static final String FULL_PATH_CREATE_CLIENTS = API_PREFIX + AUTH + CREATE_CLIENTS;
     public static final String FULL_PATH_CREATE_TOKEN = API_PREFIX + AUTH + TOKEN;
+    public static final String LOGIN = API_PREFIX + AUTH + "/login";
 }
