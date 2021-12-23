@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import ru.nonsense.auth.repository.UserRepository;
 
 import java.util.List;
 
@@ -23,7 +22,6 @@ public class AuthenticationManagerImpl implements AuthenticationManager {
 
     private final UserDetailsService detailsService;
     private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {

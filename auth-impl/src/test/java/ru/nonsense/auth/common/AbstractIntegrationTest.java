@@ -5,6 +5,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeMethod;
 
@@ -13,6 +14,7 @@ import org.testng.annotations.BeforeMethod;
         classes = TestConfiguration.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
+@TestPropertySource(locations = "/application.properties")
 public abstract class AbstractIntegrationTest extends AbstractTestNGSpringContextTests {
     @Autowired
     protected TestRestTemplate restTemplate;

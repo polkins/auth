@@ -8,7 +8,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,9 +20,8 @@ import ru.nonsense.api.dto.UserDto;
 import ru.nonsense.auth.domain.entity.client.Client;
 import ru.nonsense.auth.domain.entity.user.AuthUser;
 import ru.nonsense.auth.mapper.AuthClientDtoMapper;
-import ru.nonsense.auth.mapper.AuthUserDtoMapper;
 import ru.nonsense.auth.repository.ClientRepository;
-import ru.nonsense.auth.repository.UserRepository;
+import ru.nonsense.auth.service.AuthUserService;
 import ru.nonsense.auth.utils.JWTUtil;
 
 import java.util.List;
@@ -42,11 +40,9 @@ public class AuthController {
     private final UserDetailsService userDetailsService;
     private final AuthenticationManager authenticationManager;
     private final JWTUtil jwtUtil;
-    private final UserRepository userRepository;
     private final ClientRepository clientRepository;
-    private final AuthUserDtoMapper authUserDtoMapper;
     private final AuthClientDtoMapper authClientDtoMapper;
-    private final PasswordEncoder passwordEncoder;
+    private final AuthUserService authUserService;
 
     //TODO: создать сервисы!
 
@@ -56,7 +52,7 @@ public class AuthController {
                                               @RequestParam(value = "password") String password) {
         Authentication authentication = new UsernamePasswordAuthenticationToken(username, password);
         Authentication returnedAuthentication = authenticationManager.authenticate(authentication);
-        AuthUser user = userRepository.findByLogin((String) returnedAuthentication.getPrincipal());
+        AuthUser user = authUserService.findByLogin((String) returnedAuthentication.getPrincipal());
 
         // для ролевой
 //        String authorities = (String) returnedAuthentication.getAuthorities().toString();
@@ -74,8 +70,7 @@ public class AuthController {
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Create Users")
     public ResponseEntity<List<AuthUser>> createUser(@RequestBody List<UserDto> userDtos) {
-        userDtos.forEach(u -> u.setPassword(passwordEncoder.encode(u.getPassword())));
-        return ResponseEntity.of(Optional.of(userRepository.saveAll(authUserDtoMapper.toDomainModel(userDtos))));
+        return ResponseEntity.ok(authUserService.createUsers(userDtos));
 
     }
 
@@ -83,13 +78,13 @@ public class AuthController {
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Create clients")
     public ResponseEntity<List<Client>> createClient(@RequestBody List<ClientDto> clientDtos) {
-        return ResponseEntity.of(Optional.of(clientRepository.saveAll(authClientDtoMapper.toDomainModel(clientDtos))));
+        return ResponseEntity.ok(clientRepository.saveAll(authClientDtoMapper.toDomainModel(clientDtos)));
 
     }
 
     @GetMapping("/hello")
     @ApiOperation(value = "Check jwt")
     public ResponseEntity<String> hello() {
-        return ResponseEntity.of(Optional.of("Hello, you are authorized"));
+        return ResponseEntity.ok("Hello, you are authorized");
     }
 }

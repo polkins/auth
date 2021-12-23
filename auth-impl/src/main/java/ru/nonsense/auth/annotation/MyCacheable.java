@@ -12,4 +12,6 @@ import java.lang.annotation.Target;
 @Inherited
 @Documented
 public @interface MyCacheable {
+    String key() default "";
+    String name() default "";
 }

@@ -1,16 +1,17 @@
 package ru.nonsense.auth.invocationhandler;
 
-public interface CacheService {
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-    void cachePut(CacheKey cacheKey, Object value);
+public abstract class CacheService<T, K, V> {
 
-    void cachePutEveryInvocation(Object value, CacheKey cacheKey);
+    protected final Map<T, CacheEntry<K, V>> cache = new ConcurrentHashMap<>();
 
-    void cacheEvict(CacheKey cacheKey);
+    public abstract void cachePut(T cacheName, K key, Object object);
 
-    void clearCache();
+    abstract void clearCache();
 
-    Object cacheGet(CacheKey cacheKey);
+    public abstract Object cacheGet(T cacheName, K key);
 
-    boolean cacheContains(CacheKey cacheKey);
+    public abstract boolean cacheContains(T cacheName, K key);
 }

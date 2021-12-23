@@ -6,6 +6,6 @@ import ru.nonsense.auth.domain.entity.user.AuthUser;
 
 public interface UserRepository extends JpaRepository<AuthUser, Long> {
 
-    @MyCacheable
+    @MyCacheable(name = "users")
     AuthUser findByLogin(String login);
 }
