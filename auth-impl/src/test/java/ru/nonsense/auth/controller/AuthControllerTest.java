@@ -12,7 +12,9 @@ import ru.nonsense.api.dto.UserDto;
 import ru.nonsense.auth.common.AbstractIntegrationTest;
 import ru.nonsense.auth.domain.entity.client.Client;
 import ru.nonsense.auth.domain.entity.user.AuthUser;
+import ru.nonsense.auth.invocationhandler.CacheService;
 import ru.nonsense.auth.mapper.AuthClientDtoMapper;
+import ru.nonsense.auth.service.AuthUserService;
 import ru.nonsense.auth.utils.JWTUtil;
 
 import java.util.List;

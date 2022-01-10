@@ -16,6 +16,7 @@ import ru.nonsense.auth.filter.FilterImpl;
 import static ru.nonsense.auth.utils.AuthUtils.FULL_PATH_CREATE_CLIENTS;
 import static ru.nonsense.auth.utils.AuthUtils.FULL_PATH_CREATE_TOKEN;
 import static ru.nonsense.auth.utils.AuthUtils.FULL_PATH_CREATE_USERS;
+import static ru.nonsense.auth.utils.AuthUtils.LOGIN;
 
 @Configuration
 @EnableWebSecurity
@@ -33,15 +34,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity.authorizeRequests().antMatchers("/h2-console/**").permitAll();
+        httpSecurity.authorizeRequests().antMatchers("/resources/**").permitAll();
+
         httpSecurity.authorizeRequests().antMatchers(FULL_PATH_CREATE_TOKEN).permitAll();
         // TODO: добавить роли на эти запросы, только с ролью админа можно создавать юзеров, а клиента только с ролью юзера
         httpSecurity.authorizeRequests().antMatchers(FULL_PATH_CREATE_USERS).permitAll();
         httpSecurity.authorizeRequests().antMatchers(FULL_PATH_CREATE_CLIENTS).permitAll();
 
         httpSecurity.csrf().disable();
-        httpSecurity.authorizeRequests().anyRequest().authenticated();
         httpSecurity.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         httpSecurity.headers().frameOptions().sameOrigin();
+        httpSecurity
+                .authorizeRequests().anyRequest().authenticated()
+                .and()
+                .formLogin().permitAll()
+                .loginPage(LOGIN);
     }
 }

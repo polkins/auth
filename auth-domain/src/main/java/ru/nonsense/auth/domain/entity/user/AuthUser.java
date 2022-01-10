@@ -1,7 +1,10 @@
 package ru.nonsense.auth.domain.entity.user;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -20,9 +23,12 @@ import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Accessors(chain = true)
+@Getter
+@Setter
 @EqualsAndHashCode(of = "id")
 @Table(name = "users")
 public class AuthUser {

@@ -8,11 +8,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import ru.nonsense.auth.repository.UserRepository;
-import ru.nonsense.auth.service.UserDetailsServiceImpl;
 
 import java.util.List;
 
@@ -21,9 +20,8 @@ import java.util.List;
 @Component
 public class AuthenticationManagerImpl implements AuthenticationManager {
 
-    private final UserDetailsServiceImpl detailsService;
+    private final UserDetailsService detailsService;
     private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
