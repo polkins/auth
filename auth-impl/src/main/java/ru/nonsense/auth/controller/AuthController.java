@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import ru.nonsense.api.dto.ClientDto;
 import ru.nonsense.api.dto.UserDto;
-import ru.nonsense.auth.domain.entity.client.Client;
 import ru.nonsense.auth.domain.entity.user.AuthUser;
 import ru.nonsense.auth.mapper.AuthClientDtoMapper;
 import ru.nonsense.auth.repository.ClientRepository;
@@ -69,7 +69,7 @@ public class AuthController {
     @PostMapping(CREATE_USERS)
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Create Users")
-    public ResponseEntity<List<AuthUser>> createUser(@RequestBody List<UserDto> userDtos) {
+    public ResponseEntity<List<UserDto>> createUser(@RequestBody List<UserDto> userDtos) {
         return ResponseEntity.ok(authUserService.createUsers(userDtos));
 
     }
@@ -77,9 +77,14 @@ public class AuthController {
     @PostMapping(CREATE_CLIENTS)
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Create clients")
-    public ResponseEntity<List<Client>> createClient(@RequestBody List<ClientDto> clientDtos) {
-        return ResponseEntity.ok(clientRepository.saveAll(authClientDtoMapper.toDomainModel(clientDtos)));
+    public ResponseEntity<List<ClientDto>> createClient(@RequestBody List<ClientDto> clientDtos) {
+        return ResponseEntity.ok(authClientDtoMapper.toDto(clientRepository.saveAll(authClientDtoMapper.toDomainModel(clientDtos))));
+    }
 
+    @GetMapping(value = "/client")
+    @ApiOperation(value = "Find client by inn")
+    public ResponseEntity<ClientDto> findClientByInn(@RequestParam(value = "inn") String inn){
+        return ResponseEntity.ok(authClientDtoMapper.toDto(clientRepository.findByInn(inn)));
     }
 
     @GetMapping("/hello")

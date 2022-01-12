@@ -11,6 +11,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import ru.nonsense.auth.domain.entity.user.AuthUser;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -46,6 +47,8 @@ public class Client {
     private String lastName;
 
     private String surName;
+
+    private String inn;
 
     @ManyToMany(mappedBy = "clients", fetch = FetchType.LAZY)
     @JsonIgnore

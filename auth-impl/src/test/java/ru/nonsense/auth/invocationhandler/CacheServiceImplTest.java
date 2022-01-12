@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import ru.nonsense.api.dto.UserDto;
 import ru.nonsense.auth.common.AbstractIntegrationTest;
 import ru.nonsense.auth.domain.entity.user.AuthUser;
+import ru.nonsense.auth.mapper.AuthUserDtoMapper;
 import ru.nonsense.auth.service.AuthUserService;
 
 import java.time.Duration;
@@ -25,6 +26,8 @@ public class CacheServiceImplTest extends AbstractIntegrationTest {
     public CacheServiceImpl cacheService;
     @Autowired
     private AuthUserService authUserService;
+    @Autowired
+    private AuthUserDtoMapper authUserDtoMapper;
 
     @Test
     public void testCacheIsCleanedByScheduler() {
