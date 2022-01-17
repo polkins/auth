@@ -20,9 +20,9 @@ public class AuthUserServiceImpl implements AuthUserService {
     private final UserRepository userRepository;
 
     @Override
-    public List<AuthUser> createUsers(List<UserDto> userDtos) {
+    public List<UserDto> createUsers(List<UserDto> userDtos) {
         userDtos.forEach(u -> u.setPassword(passwordEncoder.encode(u.getPassword())));
-        return userRepository.saveAll(authUserDtoMapper.toDomainModel(userDtos));
+        return authUserDtoMapper.toDto(userRepository.saveAll(authUserDtoMapper.toDomainModel(userDtos)));
     }
 
     @Override

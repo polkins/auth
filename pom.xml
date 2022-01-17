@@ -20,6 +20,7 @@
         <module>auth-domain</module>
         <module>auth-api</module>
         <module>auth-impl</module>
+        <module>auth-client</module>
     </modules>
 
     <properties>
